@@ -1,2 +1,7 @@
 # KillMsgBox
 A utility to block annoying popup windows
+## How does it work?
+There are two types of popup ads, one is to create a form and the other is to map directly. Therefore, we have two ways to close the popup.
+For the first type of popup window, we set a timer to traverse the top level window at regular intervals and get the window handle to get the window position information. We judge the position information displayed by the window and determine if it appears on the edge of the screen. If the conditions are met, send WM_CLOSE to close the window.
+To reduce the chance of accidental death, we obtain the path of the window process according to the identifier and determine if it is a system process according to the path. If it is a system process, it will not be closed; otherwise, determine the status of the window display at this time, if so. The display status is closed.
+For the second situation of pasting images, we configure global message bindings to inject DLL files to achieve API bindings. We connect the three API functions BitBlt, StretchBlt and TransparentBlt to get the drawing position and HDC. According to the content of the HDC device, we can use the WindowFromDC function to obtain the window identifier corresponding to the HDC. Depending on the identifier, we can get the size of the client area of ​​the window. Then determine if the drawing position meets the condition of being located on the edge of the customer area. The width and height of the drawing are set to 0 to achieve the effect of not drawing the image.
